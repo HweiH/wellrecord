@@ -1,0 +1,41 @@
+一、配置步骤
+1、导入需要入的jar包
+2、编写包分层
+3、编写一个配置类
+@Configuration //Spring注解配置类，一定要加上该注解，该注解是用于标识这是一个配置类
+@EnableWebMvc  //启动SpringMVC框架==	<mvc:annotation-driven />
+@ComponentScan(basePackages={"com.togogo"})//==<context:component-scan base-package="com.togogo" />
+@EnableTransactionManagement //==<tx:annotation-driven transaction-manager="transactionManager" />
+public class SpringConfig {
+
+}
+4、配置web.xml文件
+  <!-- 核心控制器 -->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- 修改解释的ApplicationContext,用什么解释配置,因为不设置默认使用的是 ConfigurableWebApplicationContext，解释的是spring的xml文件-->
+    <init-param>
+       <param-name>contextClass</param-name>
+       <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </init-param>
+    <!-- 解释的配置类的位置 -->
+    <init-param>
+         <param-name>contextConfigLocation</param-name>
+       <param-value>com.togogo.config.SpringConfig</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  二、上传的解释器
+  org.springframework.web.multipart.commons.CommonsMultipartResolver
+三、spring+mybatis的配置步骤
+
+1、数据源
+2、对数据源事务代理
+3、mybatis的sqlSessionFactory
+4、mapper的扫描器（？）
